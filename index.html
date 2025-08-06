@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Matinex</title>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #0e0e0e;
+      color: white;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .header {
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #4ef3c1;
+    }
+
+    .socials {
+      font-size: 0.95rem;
+      margin-top: 5px;
+      color: #ccc;
+    }
+
+    .wallet-box {
+      margin-top: 30px;
+    }
+
+    .tokens {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .token {
+      background: #1e1e1e;
+      display: inline-block;
+      margin: 10px;
+      padding: 15px 25px;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #fff;
+      border: 1px solid #444;
+    }
+
+    .address-box {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #aaa;
+      cursor: pointer;
+      user-select: all;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Matinex</h1>
+    <div class="socials">
+      اینستاگرام: @mtiiiam | تلگرام: @mtiiiam
+    </div>
+  </div>
+
+  <div class="wallet-box">
+    <ton-connect id="ton-connect"></ton-connect>
+    <div id="wallet-address" class="address-box" style="display: none;">
+      آدرس: <span id="address-text"></span>
+    </div>
+  </div>
+
+  <div class="tokens">
+    <div class="token">TON</div>
+    <div class="token">BTC</div>
+    <div class="token">ETH</div>
+    <div class="token">USDT</div>
+    <div class="token">TRX</div>
+    <div class="token">XRP</div>
+    <div class="token">BNB</div>
+    <div class="token">DOGE</div>
+    <div class="token">SOL</div>
+    <div class="token">ADA</div>
+  </div>
+
+  <script>
+    const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl: window.location.origin + '/tonconnect-manifest.json',
+      buttonRootId: 'ton-connect'
+    });
+
+    tonConnectUI.onStatusChange(walletInfo => {
+      if (walletInfo && walletInfo.account && walletInfo.account.address) {
+        const address = walletInfo.account.address;
+        document.getElementById('wallet-address').style.display = 'block';
+        document.getElementById('address-text').innerText = address;
+
+        document.getElementById('wallet-address').onclick = () => {
+          navigator.clipboard.writeText(address);
+          alert('آدرس کپی شد');
+        };
+      }
+    });
+  </script>
+
+</body>
+</html>
